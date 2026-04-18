@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lernunterlage – Unternehmensrechnung & Controlling | Daniel Stadler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --surface2: #f0ede6;
+    --blue: #1a3fa8;
+    --blue-light: #eef1fb;
+    --blue-mid: #3058c8;
+    --accent: #e8a020;
+    --accent-light: #fdf5e6;
+    --green: #1a6e44;
+    --green-light: #e8f5ee;
+    --red: #c0311e;
+    --red-light: #fdecea;
+    --text: #18181b;
+    --text-mid: #52525b;
+    --text-light: #a1a1aa;
+    --border: #e4e0d8;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(247,246,242,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 54px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mid);
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 4px 10px;
+    border-radius: 20px;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+  nav a:hover { background: var(--blue-light); color: var(--blue); }
+  nav .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--blue);
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--blue);
+    color: white;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, #3a60e0 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 80% 80%, #0f2870 0%, transparent 60%);
+  }
+  .hero-tag {
+    position: relative;
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.5rem;
+    color: rgba(255,255,255,0.8);
+  }
+  .hero h1 {
+    position: relative;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 span {
+    background: linear-gradient(90deg, #f0c060, #f8a030);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    position: relative;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+  .hero-meta {
+    position: relative;
+    display: inline-flex;
+    gap: 1.5rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.8rem;
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 6px; }
+  .hero-meta strong { color: white; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ── CHAPTER ── */
+  .chapter {
+    margin: 3rem 0 1rem;
+    scroll-margin-top: 70px;
+  }
+  .chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .ch-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--blue);
+    background: var(--blue-light);
+    border: 1px solid rgba(26,63,168,0.15);
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+  .ch-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--blue);
+    margin: 1.8rem 0 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: var(--blue);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  p { margin-bottom: 0.7rem; color: var(--text); }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.4rem;
+    margin: 1rem 0;
+  }
+
+  /* ── BUCHUNGSSATZ TABLE ── */
+  .bs-wrap { overflow-x: auto; margin: 1rem 0; }
+  .bs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .bs-table thead tr { background: var(--blue); color: white; }
+  .bs-table thead th {
+    padding: 9px 12px;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .bs-table tbody tr:nth-child(even) { background: var(--surface2); }
+  .bs-table tbody td {
+    padding: 8px 12px;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+    color: var(--text);
+  }
+  .bs-table tbody td:nth-child(2),
+  .bs-table tbody td:nth-child(4) {
+    color: var(--text-mid);
+    font-size: 12px;
+  }
+  .bs-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 4px;
+  }
+
+  /* ── INFO BOXES ── */
+  .tip {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 0.9rem 1.1rem;
+    margin: 0.8rem 0;
+    font-size: 13.5px;
+  }
+  .tip strong { color: #9a6000; }
+
+  .warn {
+    background: var(--red-light);
+    border-left: 4px solid var(--red);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 0.9rem 1.1rem;
+    margin: 0.8rem 0;
+    font-size: 13.5px;
+  }
+  .warn strong { color: var(--red); }
+
+  .info {
+    background: var(--blue-light);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 0.9rem 1.1rem;
+    margin: 0.8rem 0;
+    font-size: 13.5px;
+  }
+  .info strong { color: var(--blue); }
+
+  .success {
+    background: var(--green-light);
+    border-left: 4px solid var(--green);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 0.9rem 1.1rem;
+    margin: 0.8rem 0;
+    font-size: 13.5px;
+  }
+  .success strong { color: var(--green); }
+
+  /* ── GRID TABLE ── */
+  .gtable-wrap { overflow-x: auto; margin: 0.8rem 0; }
+  .gtable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .gtable thead tr { background: var(--blue); color: white; }
+  .gtable thead th {
+    padding: 8px 12px;
+    text-align: left;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .gtable tbody tr:nth-child(even) { background: var(--surface2); }
+  .gtable tbody td {
+    padding: 8px 12px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    vertical-align: top;
+  }
+  .gtable tbody td:first-child { font-weight: 500; }
+
+  /* ── KONTO PILL ── */
+  .k {
+    display: inline-block;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    padding: 1px 7px;
+    border-radius: 4px;
+    margin: 1px;
+    border: 1px solid rgba(26,63,168,0.15);
+  }
+
+  /* ── DEF LIST ── */
+  .def-grid { display: grid; gap: 2px; margin: 0.8rem 0; }
+  .def-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 1rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+  .def-row:nth-child(even) { background: var(--surface2); }
+  .def-term { font-weight: 600; font-size: 13px; color: var(--blue); }
+  .def-desc { font-size: 13px; color: var(--text-mid); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--blue);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 4rem;
+    font-size: 13px;
+  }
+  footer strong { color: white; }
+
+  /* ── ANIMATIONS ── */
+  .chapter { opacity: 0; transform: translateY(20px); animation: fadeUp 0.5s ease forwards; }
+  @keyframes fadeUp { to { opacity: 1; transform: none; } }
+  .chapter:nth-child(1) { animation-delay: 0.05s; }
+  .chapter:nth-child(2) { animation-delay: 0.1s; }
+  .chapter:nth-child(3) { animation-delay: 0.15s; }
+  .chapter:nth-child(4) { animation-delay: 0.2s; }
+  .chapter:nth-child(5) { animation-delay: 0.25s; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.9rem; }
+    .hero-meta { flex-direction: column; gap: 0.5rem; font-size: 12px; }
+    .def-row { grid-template-columns: 1fr; gap: 2px; }
+    .def-term { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">2AVK</span>
+  <a href="#kap1">Einkauf & Verkauf</a>
+  <a href="#kap2">Anlagen & AfA</a>
+  <a href="#kap3">Bezug & Versand</a>
+  <a href="#kap4">Rechnungsausgleich</a>
+  <a href="#kap5">Bankbewegungen</a>
+  <a href="#kap6">Steuern & KU</a>
+  <a href="#kap7">KFZ</a>
+  <a href="#kap8">Sonstiges Material</a>
+  <a href="#kap9">Erzeugungsbetrieb</a>
+  <a href="#kap10">Leasing</a>
+  <a href="#kap11">Ausland</a>
+  <a href="#kap12">Abschluss</a>
+  <a href="#kap13">Theorie</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Schularbeit · 23. April 2026</div>
+  <h1>Lernunterlage<br><span>Unternehmensrechnung</span><br>& Controlling</h1>
+  <p>Alle Themen des Schularbeitenstoffs · kompakt & klar erklärt</p>
+  <div class="hero-meta">
+    <span>👤 <strong>Daniel Stadler</strong></span>
+    <span>📚 <strong>Klasse 2AVK</strong></span>
+    <span>📅 <strong>2. Jahrgang, 2. Semester</strong></span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 1 -->
+<div class="chapter" id="kap1">
+  <div class="chapter-header">
+    <span class="ch-num">01</span>
+    <h2 class="ch-title">Einkauf &amp; Verkauf von Waren</h2>
+  </div>
+
+  <h3 class="section-title">Wareneinkauf</h3>
+  <p>Beim Kauf von Handelswaren wird <strong>Handelswareneinsatz (5000–5002)</strong> im Soll gebucht. Gleichzeitig entsteht eine Verbindlichkeit (3300) oder Bankbewegung (2800). Die Vorsteuer (2500) wird immer im Soll erfasst.</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>5000 Handelswareneinsatz 20%</td><td>1.000</td><td>3300 Lieferverbindlichkeiten</td><td>1.200</td></tr>
+      <tr><td>2500 Vorsteuer 20%</td><td>200</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>MERKE:</strong> 5000 = Aufwand im Soll · 3300 = Schuld beim Lieferanten im Haben · VSt IMMER beim Einkauf dazu!</div>
+
+  <h3 class="section-title">Warenverkauf</h3>
+  <p>Erlöse (4000–4002) erscheinen im <strong>Haben</strong>. Umsatzsteuer (3500) ebenfalls im Haben. Die Forderung gegenüber dem Kunden steht auf Konto 2000 im Soll.</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>2000 Lieferforderungen</td><td>2.400</td><td>4000 Handelswarenerlöse 20%</td><td>2.000</td></tr>
+      <tr><td></td><td></td><td>3500 Umsatzsteuer 20%</td><td>400</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Rabatt (sofortige Preisminderung)</h3>
+  <p><strong>Rabatt wird NICHT extra gebucht!</strong> Nur der bereits geminderte Nettobetrag kommt in den Buchungssatz. Der Rabatt steht nur auf der Rechnung.</p>
+  <div class="info"><strong>Beispiel:</strong> Listenpreis 1.000 €, 10% Rabatt → Netto = 900 €, USt 20% = 180 €, Brutto = 1.080 €. Buchung mit Netto 900 als Basis.</div>
+
+  <h3 class="section-title">Skonto (Rabatt bei früher Zahlung)</h3>
+  <p>Skonto wird beim <strong>Rechnungsausgleich</strong> gebucht – immer mit USt/VSt-Korrektur!</p>
+  <p><strong>Lieferantenskonto beim Einkauf (wir zahlen weniger):</strong></p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>3300 Lieferverbindlichkeiten</td><td>1.200</td><td>2800 Bank</td><td>1.176</td></tr>
+      <tr><td></td><td></td><td>5880 Lieferantenskonti 20%</td><td>20</td></tr>
+      <tr><td></td><td></td><td>2500 Vorsteuer</td><td>4</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Kundenskonto beim Verkauf (Kunde zahlt weniger):</strong></p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>2800 Bank</td><td>2.352</td><td>2000 Lieferforderungen</td><td>2.400</td></tr>
+      <tr><td>4410 Kundenskonti 20%</td><td>40</td><td></td><td></td></tr>
+      <tr><td>3500 Umsatzsteuer</td><td>8</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>Formel:</strong> Brutto × Skonto% = Skontobetrag brutto · ÷ 1,20 = netto · × 0,20 = VSt-Korrektur</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 2 -->
+<div class="chapter" id="kap2">
+  <div class="chapter-header">
+    <span class="ch-num">02</span>
+    <h2 class="ch-title">Anlagenkauf &amp; Abschreibung (AfA)</h2>
+  </div>
+
+  <h3 class="section-title">Anlagenkauf</h3>
+  <p>Anlagen werden auf Konten der <strong>Klasse 0</strong> aktiviert. Vorsteuer ist abzugsfähig – außer bei PKW/Kombi!</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>0400 Maschinen</td><td>10.000</td><td>3300 Lieferverbindlichkeiten</td><td>12.000</td></tr>
+      <tr><td>2500 Vorsteuer</td><td>2.000</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="warn"><strong>⚠ PKW/Kombi (Konto 0630): KEINE Vorsteuer abziehbar!</strong> Buchung mit Bruttobetrag: <span class="k">0630</span> / <span class="k">3300</span> (Brutto). Kein VSt-Abzug!</div>
+
+  <h3 class="section-title">Abschreibung (AfA) – Berechnung</h3>
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Begriff</th><th>Erklärung</th><th>Beispiel / Formel</th></tr></thead>
+    <tbody>
+      <tr><td>Anschaffungskosten (AK)</td><td>Kaufpreis netto + Nebenkosten</td><td>z.B. 12.000 €</td></tr>
+      <tr><td>Nutzungsdauer (ND)</td><td>Geschätzte Jahre der Nutzung</td><td>z.B. 5 Jahre</td></tr>
+      <tr><td>Jahres-AfA</td><td>Abschreibung pro Jahr (linear)</td><td>12.000 ÷ 5 = 2.400 €</td></tr>
+      <tr><td>Aliquote AfA</td><td>Nur Monate ab Kauf im 1. Jahr</td><td>2.400 × 9/12 = 1.800 €</td></tr>
+      <tr><td>AfA-Satz</td><td>Prozentsatz pro Jahr</td><td>100% ÷ ND = 20%</td></tr>
+      <tr><td>Buchwert</td><td>Restlicher Bilanzwert</td><td>AK − kumulierte AfA</td></tr>
+    </tbody>
+  </table></div>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>AfA-Aufwand (direkte Methode)</td><td>1.800</td><td>0400 Maschinen</td><td>1.800</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>Aliquote AfA:</strong> Kauf am 1. April → 9 Monate → × 9/12 · Kauf am 1. Oktober → 3 Monate → × 3/12</div>
+
+  <h3 class="section-title">Geringwertige Wirtschaftsgüter (GWG)</h3>
+  <p>Anlagen bis <strong>1.000 € netto</strong> dürfen sofort vollständig abgeschrieben werden (Sofortabschreibung im Kaufjahr).</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>0480 Geringw. Maschinen</td><td>800</td><td>3300 Lieferverbindlichkeiten</td><td>960</td></tr>
+      <tr><td>2500 Vorsteuer</td><td>160</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="info">Jahresende: <span class="k">7060 Abschreibungen GWG</span> / <span class="k">0480 Geringw. Maschinen</span> (800 €)</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 3 -->
+<div class="chapter" id="kap3">
+  <div class="chapter-header">
+    <span class="ch-num">03</span>
+    <h2 class="ch-title">Bezugs- &amp; Versandkosten</h2>
+  </div>
+
+  <h3 class="section-title">Bezugskosten (beim Einkauf)</h3>
+  <p>Transportkosten beim Einkauf von Waren. Sie erhöhen den Einstandspreis → Konto <strong>5600 Bezugskosten</strong>.</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>5600 Bezugskosten</td><td>200</td><td>3300 Lieferverbindlichkeiten</td><td>240</td></tr>
+      <tr><td>2500 Vorsteuer</td><td>40</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>MERKE:</strong> Bezugskosten = beim EINKAUF → Konto 5600 im Soll</div>
+
+  <h3 class="section-title">Ausgangsfrachten / Versandkosten (beim Verkauf)</h3>
+  <p>Transportkosten beim Versand verkaufter Waren → Konto <strong>7300 Ausgangsfrachten 20%</strong> (oder 7301 für 0%).</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>7300 Ausgangsfrachten 20%</td><td>150</td><td>2800 Bank</td><td>180</td></tr>
+      <tr><td>2500 Vorsteuer 20%</td><td>30</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>MERKE:</strong> Ausgangsfrachten = beim VERKAUF → Konto 7300 im Soll</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 4 -->
+<div class="chapter" id="kap4">
+  <div class="chapter-header">
+    <span class="ch-num">04</span>
+    <h2 class="ch-title">Rechnungsausgleich</h2>
+  </div>
+
+  <h3 class="section-title">Zahlung ohne Skonto</h3>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>3300 Lieferverbindlichkeiten</td><td>1.200</td><td>2800 Bank</td><td>1.200</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Zahlung mit Lieferantenskonto (Einkauf)</h3>
+  <p>Wir zahlen weniger → Skonto = Aufwandsminderung + Vorsteuerkorrektur:</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>3300 Lieferverbindlichkeiten</td><td>1.200</td><td>2800 Bank</td><td>1.176</td></tr>
+      <tr><td></td><td></td><td>5880 Lieferantenskonti 20%</td><td>20</td></tr>
+      <tr><td></td><td></td><td>2500 Vorsteuer</td><td>4</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Eingang mit Kundenskonto (Verkauf)</h3>
+  <p>Kunde zahlt weniger → Skonto = Erlösminderung + USt-Korrektur:</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>2800 Bank</td><td>2.352</td><td>2000 Lieferforderungen</td><td>2.400</td></tr>
+      <tr><td>4410 Kundenskonti 20%</td><td>40</td><td></td><td></td></tr>
+      <tr><td>3500 Umsatzsteuer</td><td>8</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>Kundenskonti (4410)</strong> = Erlösminderung im Soll · <strong>USt (3500)</strong> wird korrigiert = im Soll</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 5 -->
+<div class="chapter" id="kap5">
+  <div class="chapter-header">
+    <span class="ch-num">05</span>
+    <h2 class="ch-title">Besondere Bankbewegungen</h2>
+  </div>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Vorgang</th><th>Buchungssatz</th><th>Hinweis</th></tr></thead>
+    <tbody>
+      <tr><td>Guthabenzinsen (wir erhalten)</td><td>2800 Bank / 8050 Zinserträge Bankguth.</td><td>Ertrag im Haben</td></tr>
+      <tr><td>Schuldzinsen (wir zahlen)</td><td>8310 Zinsenaufw. Bankkred. / 3120 Bank</td><td>Aufwand im Soll</td></tr>
+      <tr><td>Bankspesen / Kontoführung</td><td>7790 Spesen Geldverkehr / 2800 Bank</td><td>Aufwand im Soll</td></tr>
+      <tr><td>Sonstige Bankspesen</td><td>7791 Sonst. Bankspesen / 2800 Bank</td><td></td></tr>
+      <tr><td>Darlehen aufnehmen</td><td>2800 Bank / 3150 Darlehen (von Bank)</td><td>Schuld entsteht</td></tr>
+      <tr><td>Darlehenszinsen zahlen</td><td>8315 Zinsenaufw. Darlehen / 2800 Bank</td><td>Aufwand im Soll</td></tr>
+      <tr><td>Darlehen tilgen</td><td>3150 Darlehen / 2800 Bank</td><td>Schuld sinkt</td></tr>
+      <tr><td>Kreditkartenabrechnung</td><td>3180 Verb. Kreditkartenunt. / 2800 Bank</td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="warn"><strong>2800 Bank vs. 3120 Bank:</strong> 2800 = unser Bankguthaben (Aktivkonto) · 3120 = Bankschuld/Kontokorrentkredit (Passivkonto). Nicht verwechseln!</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 6 -->
+<div class="chapter" id="kap6">
+  <div class="chapter-header">
+    <span class="ch-num">06</span>
+    <h2 class="ch-title">Steuern &amp; Kammerumlage</h2>
+  </div>
+
+  <h3 class="section-title">USt-System im Überblick</h3>
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Begriff</th><th>Konto</th><th>Erklärung</th></tr></thead>
+    <tbody>
+      <tr><td>Vorsteuer</td><td>2500</td><td>USt beim EINKAUF bezahlt → dürfen wir abziehen (Aktivkonto)</td></tr>
+      <tr><td>Vorsteuer ig. Erwerb</td><td>2510</td><td>VSt aus Innergemeinschaftlichem Erwerb</td></tr>
+      <tr><td>Einfuhrumsatzsteuer</td><td>2520</td><td>VSt beim Import aus Nicht-EU-Land</td></tr>
+      <tr><td>Umsatzsteuer</td><td>3500</td><td>USt beim VERKAUF eingenommen → müssen wir abführen (Passivkonto)</td></tr>
+      <tr><td>Erwerbsteuer</td><td>3510</td><td>USt aus ig. Erwerb – selbst zu berechnen</td></tr>
+      <tr><td>USt-Zahllast</td><td>3520</td><td>Was wir ans Finanzamt überweisen: 3500 − 2500</td></tr>
+      <tr><td>Verb. Finanzamt</td><td>3540</td><td>Verrechnungskonto mit dem Finanzamt</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">USt-Zahllast berechnen und buchen</h3>
+  <div class="info"><strong>Zahllast = Umsatzsteuer (3500) − Vorsteuer (2500)</strong></div>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>3500 Umsatzsteuer</td><td>5.000</td><td>2500 Vorsteuer</td><td>3.000</td></tr>
+      <tr><td></td><td></td><td>3520 USt-Zahllast</td><td>2.000</td></tr>
+    </tbody>
+  </table></div>
+  <p>Überweisung ans Finanzamt:</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>3520 USt-Zahllast</td><td>2.000</td><td>2800 Bank</td><td>2.000</td></tr>
+    </tbody>
+  </table></div>
+  <div class="success"><strong>Vorsteuerüberhang (VSt &gt; USt):</strong> Wir bekommen Geld zurück → Buchung: 3500 USt + 2300 Ford. Finanzamt / 2500 VSt</div>
+
+  <h3 class="section-title">Kammerumlage</h3>
+  <p>Pflichtbeitrag zur Wirtschaftskammer (WKÖ). Bemessungsgrundlage: Vorsteuern des Quartals × Promillesatz.</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>7780 Kammerumlage</td><td>Betrag</td><td>3540 Verb. Finanzamt</td><td>Betrag</td></tr>
+      <tr><td>3540 Verb. Finanzamt</td><td>Betrag</td><td>2800 Bank</td><td>Betrag</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 7 -->
+<div class="chapter" id="kap7">
+  <div class="chapter-header">
+    <span class="ch-num">07</span>
+    <h2 class="ch-title">KFZ-Betriebskosten</h2>
+  </div>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Aufwand</th><th>PKW/Kombi</th><th>LKW</th><th>VSt absetzbar?</th></tr></thead>
+    <tbody>
+      <tr><td>Betriebsaufwand allg.</td><td>7320</td><td>7330</td><td>LKW: JA · PKW: NEIN</td></tr>
+      <tr><td>Versicherung (KFZ)</td><td>7325</td><td>7335</td><td>NEIN (keine VSt auf Vers.)</td></tr>
+      <tr><td>Motorbez. Versicherungssteuer</td><td>7321</td><td>7331</td><td>NEIN (ist eine Steuer)</td></tr>
+      <tr><td>Kraftfahrzeugsteuer</td><td>—</td><td>7332</td><td>NEIN</td></tr>
+      <tr><td>Parkgebühren / Maut</td><td>7326</td><td>7336</td><td>JA (wenn Rechnung)</td></tr>
+      <tr><td>Treibstoff</td><td>7250</td><td>7250</td><td>LKW: JA · PKW: NEIN</td></tr>
+      <tr><td>Leasingaufwand</td><td>7450</td><td>7460</td><td>LKW: JA · PKW: NEIN</td></tr>
+    </tbody>
+  </table></div>
+  <div class="warn"><strong>⚠ PKW/Kombi: KEINE Vorsteuer abziehbar!</strong> Bei PKW immer Bruttobetrag als Aufwand buchen.</div>
+
+  <p><strong>Treibstoff LKW (VSt absetzbar):</strong></p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>7250 Treibstoffverbrauch</td><td>100</td><td>2800 Bank</td><td>120</td></tr>
+      <tr><td>2500 Vorsteuer</td><td>20</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Treibstoff PKW (KEINE VSt):</strong></p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>7250 Treibstoffverbrauch</td><td>120</td><td>2800 Bank</td><td>120</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 8 -->
+<div class="chapter" id="kap8">
+  <div class="chapter-header">
+    <span class="ch-num">08</span>
+    <h2 class="ch-title">Sonstiges Material</h2>
+  </div>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Material</th><th>Vorrat (Kl. 1)</th><th>Verbrauch (Kl. 5/7)</th></tr></thead>
+    <tbody>
+      <tr><td>Rohstoffe</td><td>1100</td><td>5100 Rohstoffverbrauch</td></tr>
+      <tr><td>Hilfsstoffe</td><td>1300</td><td>5300 Hilfsstoffverbrauch</td></tr>
+      <tr><td>Betriebsstoffe</td><td>1350</td><td>5400 Betriebsstoffverbrauch</td></tr>
+      <tr><td>Verpackungsmaterial</td><td>1340</td><td>5340 Verpackungsmaterialverbrauch</td></tr>
+      <tr><td>Ersatzteile</td><td>1250</td><td>5510 Ersatzteileverbrauch</td></tr>
+      <tr><td>Reinigungsmaterial</td><td>1370</td><td>5450 Reinigungsmaterialverbrauch</td></tr>
+      <tr><td>Büromaterial</td><td>1390</td><td>7600 Büromaterial (Büroaufwand)</td></tr>
+      <tr><td>Schmiermittel</td><td>1365</td><td>5410 Schmiermittelverbrauch</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>MERKE:</strong> Kauf → Vorratskonto (Kl. 1) · Verbrauch → Aufwandskonto (Kl. 5 oder 7)</div>
+
+  <p><strong>Direktbuchung ohne Vorrat (z.B. Büromaterial):</strong></p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>7600 Büromaterial</td><td>100</td><td>2800 Bank</td><td>120</td></tr>
+      <tr><td>2500 Vorsteuer</td><td>20</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Mit Vorratskonto (z.B. Rohstoffeinkauf + Verbrauch):</strong></p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>1100 Rohstoffvorrat</td><td>500</td><td>3300 Lieferverbindlichkeiten</td><td>600</td></tr>
+      <tr><td>2500 Vorsteuer</td><td>100</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="info">Bei Verbrauch: <span class="k">5100 Rohstoffverbrauch</span> / <span class="k">1100 Rohstoffvorrat</span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 9 -->
+<div class="chapter" id="kap9">
+  <div class="chapter-header">
+    <span class="ch-num">09</span>
+    <h2 class="ch-title">Erzeugungsbetrieb</h2>
+  </div>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Konto</th><th>Bezeichnung</th><th>Bedeutung</th></tr></thead>
+    <tbody>
+      <tr><td>1100</td><td>Rohstoffvorrat</td><td>Rohstoffe im Lager</td></tr>
+      <tr><td>5100</td><td>Rohstoffverbrauch</td><td>Verbrauchte Rohstoffe → Aufwand</td></tr>
+      <tr><td>1300</td><td>Hilfsstoffvorrat</td><td>Hilfsstoffe im Lager</td></tr>
+      <tr><td>5300</td><td>Hilfsstoffverbrauch</td><td>Verbrauchte Hilfsstoffe → Aufwand</td></tr>
+      <tr><td>1400</td><td>Unfertige Erzeugnisse</td><td>Produkte noch in Fertigung</td></tr>
+      <tr><td>1500</td><td>Fertige Erzeugnisse</td><td>Fertige Produkte im Lager</td></tr>
+      <tr><td>4500</td><td>Bestandsveränderungen</td><td>Zu-/Abnahme der Erzeugnisbestände</td></tr>
+      <tr><td>4100</td><td>Fertigerzeugniserlöse 20%</td><td>Erlöse aus Verkauf eigener Produkte</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Bestandsveränderungen buchen</h3>
+  <p><strong>Mehrung</strong> – mehr produziert als verkauft → Bestand steigt:</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>1500 Fertige Erzeugnisse</td><td>X</td><td>4500 Bestandsveränderungen</td><td>X</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Minderung</strong> – mehr verkauft als produziert → Bestand sinkt:</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>4500 Bestandsveränderungen</td><td>X</td><td>1500 Fertige Erzeugnisse</td><td>X</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>MERKE:</strong> Mehrung → 1500 im Soll (Aktivkonto steigt) · Minderung → 1500 im Haben (Aktivkonto sinkt)</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 10 -->
+<div class="chapter" id="kap10">
+  <div class="chapter-header">
+    <span class="ch-num">10</span>
+    <h2 class="ch-title">Leasinggeschäfte</h2>
+  </div>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Art</th><th>Wirtschaftliches Eigentum</th><th>Bilanz</th><th>Buchung</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Operatives Leasing</strong></td><td>Leasinggeber</td><td>Kein Aktivposten</td><td>Nur Raten als Aufwand</td></tr>
+      <tr><td><strong>Finanzierungsleasing</strong></td><td>Leasingnehmer</td><td>Aktivierungspflicht!</td><td>Wie Kauf auf Kredit</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Operatives Leasing</h3>
+  <p>Nur die laufenden Leasingraten werden als Aufwand gebucht. Kein Aktivposten in der Bilanz.</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>7440 Leasingaufwand</td><td>500</td><td>3300 / 2800</td><td>600</td></tr>
+      <tr><td>2500 Vorsteuer</td><td>100</td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="info">PKW/Kombi: <span class="k">7450 Leasingaufwand Pkw und Kombis</span> – KEINE Vorsteuer!</div>
+
+  <h3 class="section-title">Finanzierungsleasing</h3>
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Schritt</th><th>Buchung</th><th>Erklärung</th></tr></thead>
+    <tbody>
+      <tr><td>1. Vertragsabschluss</td><td>Anlage / 2905 Aktivposten Leasingfahrzeuge</td><td>Barwert der zukünftigen Raten</td></tr>
+      <tr><td>2. Rate – Zinsanteil</td><td>8315 Zinsenaufwand / 2800 Bank</td><td>Zinsanteil der Rate</td></tr>
+      <tr><td>3. Rate – Tilgung</td><td>2905 Aktivposten / 2800 Bank</td><td>Tilgungsanteil mindert Schuld</td></tr>
+      <tr><td>4. AfA</td><td>AfA-Aufwand / 0xxx Anlage</td><td>Normal auf aktivierten Wert</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 11 -->
+<div class="chapter" id="kap11">
+  <div class="chapter-header">
+    <span class="ch-num">11</span>
+    <h2 class="ch-title">Auslandsgeschäfte</h2>
+  </div>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Vorgang</th><th>Richtung</th><th>USt?</th><th>Wichtige Konten</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ig. Erwerb</strong></td><td>Kauf aus EU-Land</td><td>Erwerbsteuer (3510) + VSt (2510)</td><td>3360 · 2510 · 3510</td></tr>
+      <tr><td><strong>ig. Lieferung</strong></td><td>Verkauf in EU-Land</td><td>Steuerfrei (0%)</td><td>2100 · 4010</td></tr>
+      <tr><td><strong>Import</strong></td><td>Kauf aus Nicht-EU</td><td>EUSt ans Zollamt (2520)</td><td>3370 · 2520</td></tr>
+      <tr><td><strong>Export</strong></td><td>Verkauf in Nicht-EU</td><td>Steuerfrei (0%)</td><td>2150 · 4015</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">ig. Erwerb (Kauf aus EU-Land)</h3>
+  <p>Lieferant stellt ohne USt. Wir berechnen die Erwerbsteuer selbst und dürfen sie gleichzeitig als Vorsteuer abziehen.</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>5000 Handelswareneinsatz</td><td>1.000</td><td>3360 Lieferverb. Währungsunion</td><td>1.000</td></tr>
+      <tr><td>2510 Vorsteuer ig. Erwerb</td><td>200</td><td>3510 Erwerbsteuer</td><td>200</td></tr>
+    </tbody>
+  </table></div>
+  <div class="warn"><strong>⚠ IMMER beide Konten buchen:</strong> 2510 UND 3510 – auch wenn sie sich aufheben. Beide tauchen in der USt-Meldung auf!</div>
+
+  <h3 class="section-title">ig. Lieferung (Verkauf in EU-Land)</h3>
+  <p>Steuerfrei – aber auf Konto <strong>4010</strong> (nicht 4000!)</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>2100 Lieferforderungen Währungsunion</td><td>1.000</td><td>4010 Erlöse ig. Lieferungen</td><td>1.000</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Import (aus Nicht-EU-Land)</h3>
+  <p>EUSt wird vom Zollamt verrechnet, wir zahlen sie und dürfen sie als Vorsteuer (2520) abziehen.</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>5000 Handelswareneinsatz</td><td>1.000</td><td>3370 Lieferverb. sonstiges Ausland</td><td>1.000</td></tr>
+      <tr><td>2520 Einfuhrumsatzsteuer</td><td>200</td><td>2800 Bank (ans Zollamt)</td><td>200</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Export (in Nicht-EU-Land)</h3>
+  <p>Steuerfrei. Konto <strong>4015 Exporterlöse</strong> (nicht 4000!)</p>
+  <div class="bs-wrap"><table class="bs-table">
+    <thead><tr><th>Soll-Konto</th><th>Betrag</th><th>Haben-Konto</th><th>Betrag</th></tr></thead>
+    <tbody>
+      <tr><td>2150 Lieferforderungen sonstiges Ausland</td><td>1.000</td><td>4015 Exporterlöse</td><td>1.000</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Kursdifferenzen</h3>
+  <p>Bei Fremdwährungsgeschäften ändert sich der Wechselkurs zwischen Rechnung und Zahlung.</p>
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Situation</th><th>Konto</th><th>Beispielbuchung</th></tr></thead>
+    <tbody>
+      <tr><td>Kursgewinn (mehr erhalten als erwartet)</td><td>4840</td><td>2800 (mehr) / 2150 (Forderung) + 4840</td></tr>
+      <tr><td>Kursverlust (weniger erhalten als erwartet)</td><td>7815</td><td>2800 (weniger) + 7815 / 2150 (Forderung)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="info"><strong>Beispiel:</strong> Forderung 1.000 USD. Kurs bei Buchung 1,10 → 1.100 € · Kurs bei Zahlung 1,05 → 1.050 € → Kursverlust 50 € → 7815 im Soll</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 12 -->
+<div class="chapter" id="kap12">
+  <div class="chapter-header">
+    <span class="ch-num">12</span>
+    <h2 class="ch-title">Abschluss: SSB, GuV &amp; Bilanz</h2>
+  </div>
+
+  <h3 class="section-title">Summen- und Saldenbilanz (SSB)</h3>
+  <p>Übersicht aller Konten mit Soll-Summe, Haben-Summe und dem Saldo (Differenz). Der Saldo zeigt den Endstand.</p>
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Konto</th><th>Bezeichnung</th><th>Soll-Summe</th><th>Haben-Summe</th><th>Soll-Saldo</th><th>Haben-Saldo</th></tr></thead>
+    <tbody>
+      <tr><td>2800</td><td>Bank</td><td>50.000</td><td>30.000</td><td>20.000</td><td>—</td></tr>
+      <tr><td>3300</td><td>Lieferverb.</td><td>10.000</td><td>25.000</td><td>—</td><td>15.000</td></tr>
+      <tr><td>4000</td><td>HW-Erlöse 20%</td><td>0</td><td>80.000</td><td>—</td><td>80.000</td></tr>
+      <tr><td>5000</td><td>HW-Einsatz 20%</td><td>50.000</td><td>0</td><td>50.000</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Gewinn- und Verlustrechnung (GuV)</h3>
+  <p>Nur Erfolgskonten (Erträge und Aufwendungen) werden hier abgeschlossen.</p>
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Seite</th><th>Konten</th><th>Buchung</th></tr></thead>
+    <tbody>
+      <tr><td>Soll (Aufwand)</td><td>5xxx, 6xxx, 7xxx, 8xxx (Aufwand)</td><td>Aufwandskonto / 9890 GuV</td></tr>
+      <tr><td>Haben (Ertrag)</td><td>4xxx, 8xxx (Ertrag)</td><td>9890 GuV / Ertragskonto</td></tr>
+      <tr><td>Gewinn</td><td>Haben-Seite &gt; Soll-Seite</td><td>9890 GuV / 9000 Kapital</td></tr>
+      <tr><td>Verlust</td><td>Soll-Seite &gt; Haben-Seite</td><td>9000 Kapital / 9890 GuV</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Schlussbilanz (SBK)</h3>
+  <p>Alle Bestandskonten werden über das Schlussbilanzkonto (9850) abgeschlossen.</p>
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Kontenart</th><th>Abschluss</th><th>Buchung</th></tr></thead>
+    <tbody>
+      <tr><td>Aktivkonten (0xxx, 1xxx, 2xxx)</td><td>ins SBK Haben</td><td>Aktivkonto / 9850 SBK</td></tr>
+      <tr><td>Passivkonten (3xxx, 9xxx)</td><td>ins SBK Soll</td><td>9850 SBK / Passivkonto</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>MERKE:</strong> Aktiva (links) = Mittelverwendung = Vermögen · Passiva (rechts) = Mittelherkunft = Kapital + Schulden. Beide Seiten MÜSSEN gleich sein!</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ KAP 13 -->
+<div class="chapter" id="kap13">
+  <div class="chapter-header">
+    <span class="ch-num">13</span>
+    <h2 class="ch-title">Theorie-Kompakt &amp; häufige Fehler</h2>
+  </div>
+
+  <h3 class="section-title">Wichtige Definitionen</h3>
+  <div class="def-grid">
+    <div class="def-row"><span class="def-term">Aktiva</span><span class="def-desc">Vermögen (Kl. 0,1,2) – linke Bilanzseite</span></div>
+    <div class="def-row"><span class="def-term">Passiva</span><span class="def-desc">Kapital und Schulden (Kl. 3,9) – rechte Bilanzseite</span></div>
+    <div class="def-row"><span class="def-term">Aufwand</span><span class="def-desc">Verbrauch von Gütern/DL (Kl. 5,6,7,8) → GuV Soll</span></div>
+    <div class="def-row"><span class="def-term">Ertrag</span><span class="def-desc">Entstehung von Gütern/Leistungen (Kl. 4,8) → GuV Haben</span></div>
+    <div class="def-row"><span class="def-term">Buchungssatz</span><span class="def-desc">Soll-Konto an Haben-Konto – immer: was steigt im Soll, was sinkt im Haben</span></div>
+    <div class="def-row"><span class="def-term">Vorsteuer</span><span class="def-desc">USt beim Einkauf bezahlt → dürfen wir abziehen (Konto 2500, Aktivkonto)</span></div>
+    <div class="def-row"><span class="def-term">Umsatzsteuer</span><span class="def-desc">USt beim Verkauf eingenommen → müssen wir abführen (Konto 3500, Passivkonto)</span></div>
+    <div class="def-row"><span class="def-term">AfA</span><span class="def-desc">Absetzung für Abnutzung = jährliche planmäßige Abschreibung von Anlagen</span></div>
+    <div class="def-row"><span class="def-term">GWG</span><span class="def-desc">Geringwertige Wirtschaftsgüter ≤ 1.000 € netto → Sofortabschreibung</span></div>
+    <div class="def-row"><span class="def-term">ig. Erwerb</span><span class="def-desc">Kauf aus EU-Land → Erwerbsteuer (3510) + VSt (2510) – BEIDE buchen!</span></div>
+    <div class="def-row"><span class="def-term">ig. Lieferung</span><span class="def-desc">Verkauf in EU-Land → steuerfrei, Konto 4010</span></div>
+    <div class="def-row"><span class="def-term">EUSt</span><span class="def-desc">Einfuhrumsatzsteuer beim Import aus Nicht-EU-Land (Konto 2520)</span></div>
+    <div class="def-row"><span class="def-term">Skonto</span><span class="def-desc">Nachlass bei früher Zahlung – immer USt/VSt mitkorrigieren!</span></div>
+    <div class="def-row"><span class="def-term">Rabatt</span><span class="def-desc">Sofortige Preisminderung auf der Rechnung – wird NICHT extra gebucht</span></div>
+    <div class="def-row"><span class="def-term">Buchwert</span><span class="def-desc">Anschaffungskosten minus kumulierte Abschreibungen</span></div>
+  </div>
+
+  <h3 class="section-title">Häufige Fehler – diese Punkte kosten Noten!</h3>
+
+  <div class="warn"><strong>⚠ VSt beim PKW:</strong> PKW und Kombi: KEINE Vorsteuer! Bruttobetrag aktivieren (0630 / 3300 mit Brutto).</div>
+  <div class="warn"><strong>⚠ Skonto ohne VSt-Korrektur:</strong> Bei Skonto IMMER Vorsteuer (Einkauf) oder USt (Verkauf) mitkorrigieren!</div>
+  <div class="warn"><strong>⚠ ig. Erwerb unvollständig:</strong> IMMER BEIDE Konten: 2510 Vorsteuer ig. Erwerb UND 3510 Erwerbsteuer buchen.</div>
+  <div class="warn"><strong>⚠ Aliquote AfA vergessen:</strong> Im Kaufjahr nur die Monate ab Anschaffung → Jahres-AfA × Monate/12.</div>
+  <div class="warn"><strong>⚠ GWG-Grenze falsch:</strong> GWG-Grenze: 1.000 € NETTO (ohne USt). Nicht Bruttopreis!</div>
+  <div class="warn"><strong>⚠ Rabatt extra gebucht:</strong> Rabatt wird NICHT gebucht – nur reduzierter Nettobetrag in den Buchungssatz.</div>
+  <div class="warn"><strong>⚠ Falsches Erlöskonto:</strong> ig. Lieferung → 4010 (nicht 4000!) · Export → 4015 (nicht 4000!)</div>
+  <div class="warn"><strong>⚠ Kursdifferenz falsch:</strong> Vergleich: Kurs bei Buchung vs. Kurs bei Zahlung. Differenz → 4840 (Gewinn) oder 7815 (Verlust).</div>
+  <div class="warn"><strong>⚠ GuV vs. Bilanz:</strong> Ertrags-/Aufwandskonten → GuV (9890) · Aktiv-/Passivkonten → Schlussbilanzkonto (9850).</div>
+  <div class="warn"><strong>⚠ 2800 vs. 3120:</strong> 2800 Bank = Guthaben (Aktiv) · 3120 Bank = Schuld bei Bank (Passiv). Nicht verwechseln!</div>
+
+  <div style="margin-top: 2rem; background: var(--blue); color: white; border-radius: var(--radius); padding: 1.5rem 1.8rem; text-align: center;">
+    <div style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.4rem;">Du schaffst das, Daniel! 💪</div>
+    <div style="font-size: 13px; opacity: 0.8;">Lern die Buchungssätze auswendig · übe mit Beispielen · Schularbeit: 23. April 2026</div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+  <strong>Lernunterlage Unternehmensrechnung &amp; Controlling</strong> · Daniel Stadler · Klasse 2AVK · 2. Jahrgang, 2. Semester<br>
+  Alle Angaben ohne Gewähr · Schularbeit: 23. April 2026
+</footer>
+
+</body>
+</html>
