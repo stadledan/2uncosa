@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lernunterlage – Unternehmensrechnung & Controlling | Daniel Stadler | 2AVK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --surface2: #f0ede6;
+  --blue: #1a3fa8;
+  --blue-light: #eef1fb;
+  --accent: #f0a020;
+  --accent-light: #fdf6e6;
+  --green: #1a6e44;
+  --green-light: #e8f5ee;
+  --red: #c0311e;
+  --red-light: #fdecea;
+  --text: #18181b;
+  --text-mid: #52525b;
+  --text-light: #a1a1aa;
+  --border: #e4e0d8;
+  --r: 14px; --rs: 8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(247,246,242,0.94); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem; display: flex; align-items: center; gap: 0.8rem;
+  height: 52px; overflow-x: auto; scrollbar-width: none;
+}
+nav::-webkit-scrollbar { display: none; }
+.nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; color: var(--blue); flex-shrink: 0; margin-right: 0.5rem; }
+nav a { font-family: 'DM Mono', monospace; font-size: 10.5px; color: var(--text-mid); text-decoration: none; white-space: nowrap; padding: 3px 9px; border-radius: 20px; transition: all 0.18s; letter-spacing: 0.03em; }
+nav a:hover { background: var(--blue-light); color: var(--blue); }
+
+/* HERO */
+.hero { background: var(--blue); color: white; padding: 5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, #3a60e0 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 80% 80%, #0f2870 0%, transparent 60%); }
+.hero-tag { position: relative; display: inline-block; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 4px 14px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; margin-bottom: 1.5rem; color: rgba(255,255,255,0.8); }
+.hero h1 { position: relative; font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2rem, 6vw, 3.8rem); line-height: 1.1; margin-bottom: 0.6rem; letter-spacing: -0.02em; }
+.hero h1 span { background: linear-gradient(90deg, #f0c060, #f8a030); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero p { position: relative; font-size: 1rem; color: rgba(255,255,255,0.7); margin-bottom: 2rem; font-weight: 300; }
+.hero-meta { position: relative; display: inline-flex; gap: 1.5rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--r); padding: 0.9rem 1.8rem; font-size: 13px; color: rgba(255,255,255,0.85); flex-wrap: wrap; justify-content: center; }
+.hero-meta strong { color: white; }
+
+/* LAYOUT */
+.container { max-width: 860px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+/* CHAPTER */
+.chapter { margin: 3rem 0 0; scroll-margin-top: 65px; }
+.chapter-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem; padding-bottom: 0.8rem; border-bottom: 2px solid var(--blue-light); }
+.ch-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--blue); background: var(--blue-light); border: 1px solid rgba(26,63,168,0.15); padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
+.ch-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+.section-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: var(--blue); margin: 1.6rem 0 0.5rem; display: flex; align-items: center; gap: 8px; }
+.section-title::before { content: ''; width: 4px; height: 17px; background: var(--blue); border-radius: 2px; flex-shrink: 0; }
+p { margin-bottom: 0.6rem; }
+
+/* BUCHUNGSSCHEMA – exactly as in book */
+.bs-wrap { overflow-x: auto; margin: 0.8rem 0; }
+.bs-schema { display: inline-flex; align-items: center; gap: 0; background: var(--blue-light); border: 1.5px solid var(--blue); border-radius: var(--rs); overflow: hidden; font-family: 'DM Mono', monospace; font-size: 13px; min-width: 300px; }
+.bs-soll { background: var(--blue); color: white; padding: 8px 14px; font-weight: 500; }
+.bs-slash { background: var(--blue-light); color: var(--blue); padding: 8px 10px; font-weight: 700; font-size: 16px; }
+.bs-haben { background: var(--blue-light); color: var(--text); padding: 8px 14px; }
+.bs-note { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--text-mid); margin-top: 3px; margin-left: 2px; font-style: italic; }
+
+/* TABLE */
+.gtable-wrap { overflow-x: auto; margin: 0.8rem 0; }
+.gtable { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--surface); border-radius: var(--r); overflow: hidden; border: 1px solid var(--border); }
+.gtable thead tr { background: var(--blue); color: white; }
+.gtable thead th { padding: 8px 12px; text-align: left; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; }
+.gtable tbody tr:nth-child(even) { background: var(--surface2); }
+.gtable tbody td { padding: 8px 12px; border-top: 1px solid var(--border); vertical-align: top; }
+.gtable tbody td:first-child { font-weight: 500; }
+
+/* BOXES */
+.tip { background: var(--accent-light); border-left: 4px solid var(--accent); border-radius: 0 var(--rs) var(--rs) 0; padding: 0.8rem 1rem; margin: 0.7rem 0; font-size: 13.5px; }
+.tip strong { color: #8a5500; }
+.warn { background: var(--red-light); border-left: 4px solid var(--red); border-radius: 0 var(--rs) var(--rs) 0; padding: 0.8rem 1rem; margin: 0.7rem 0; font-size: 13.5px; }
+.warn strong { color: var(--red); }
+.info { background: var(--blue-light); border-left: 4px solid var(--blue); border-radius: 0 var(--rs) var(--rs) 0; padding: 0.8rem 1rem; margin: 0.7rem 0; font-size: 13.5px; }
+.info strong { color: var(--blue); }
+.success { background: var(--green-light); border-left: 4px solid var(--green); border-radius: 0 var(--rs) var(--rs) 0; padding: 0.8rem 1rem; margin: 0.7rem 0; font-size: 13.5px; }
+.success strong { color: var(--green); }
+
+/* KONTO CHIP */
+.k { display: inline-block; background: var(--blue-light); color: var(--blue); font-family: 'DM Mono', monospace; font-size: 11.5px; padding: 1px 7px; border-radius: 4px; border: 1px solid rgba(26,63,168,0.18); white-space: nowrap; }
+
+/* DIVIDER */
+hr.div { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+/* FOOTER */
+footer { background: var(--blue); color: rgba(255,255,255,0.7); text-align: center; padding: 2rem; font-size: 13px; }
+footer strong { color: white; }
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 1.8rem; }
+  .hero-meta { flex-direction: column; gap: 0.4rem; font-size: 12px; }
+  .bs-schema { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">2AVK</span>
+  <a href="#kap1">Einkauf &amp; Verkauf</a>
+  <a href="#kap2">Anlagenkauf</a>
+  <a href="#kap3">Bezug &amp; Versand</a>
+  <a href="#kap4">Rabatte</a>
+  <a href="#kap5">Rechnungsausgleich</a>
+  <a href="#kap6">Bankbewegungen</a>
+  <a href="#kap7">Steuern &amp; KU</a>
+  <a href="#kap8">KFZ-Kosten</a>
+  <a href="#kap9">Sonstiges Material</a>
+  <a href="#kap10">Erzeugungsbetrieb</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Schularbeit · 23. April 2026</div>
+  <h1>Lernunterlage<br><span>Unternehmensrechnung</span><br>&amp; Controlling</h1>
+  <p>Direkt aus dem UNCO-Buch · nur Schularbeitsstoff · HAK II</p>
+  <div class="hero-meta">
+    <span>👤 <strong>Daniel Stadler</strong></span>
+    <span>📚 <strong>Klasse 2AVK</strong></span>
+    <span>📅 <strong>2. Jahrgang, 2. Semester</strong></span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ══════════════════════════════════════════════════ KAP 1 -->
+<div class="chapter" id="kap1">
+  <div class="chapter-header">
+    <span class="ch-num">Kap. 1 · Basics LE 1</span>
+    <h2 class="ch-title">Einkauf und Verkauf von Waren</h2>
+  </div>
+
+  <p>Du hast im 1. Jahrgang die grundlegenden Buchungssätze rund um Einkauf und Verkauf von Waren gelernt. In dieser Lerneinheit kannst du dein Wissen auffrischen.</p>
+
+  <h3 class="section-title">Einkauf und Verkauf – Wiederholung</h3>
+  <p>Die wichtigsten Buchungssätze rund um Ein- und Verkauf kennst du bereits:</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Einkauf:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">5000 HW-Einsatz / 33… Lieferantenkonto</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa etc.</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Verkauf:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">20… Kundenkonto</span><span class="bs-slash">/</span><span class="bs-haben">4000 HW-Erlöse / 3500 Umsatzsteuer</span></div>
+    <div class="bs-note">2700 Kassa etc.</div>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Warenrücksendung (Einkauf):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">33… Lieferantenkonto</span><span class="bs-slash">/</span><span class="bs-haben">5000 HW-Einsatz / 2500 Vorsteuer</span></div>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Warenrücksendung (Verkauf):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">4000 HW-Erlöse / 3500 Umsatzsteuer</span><span class="bs-slash">/</span><span class="bs-haben">20… Kundenkonto</span></div>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Privatentnahme von Waren:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">9600 Privat</span><span class="bs-slash">/</span><span class="bs-haben">4900 Eigenverbrauch / 3500 Umsatzsteuer</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KAP 2 -->
+<div class="chapter" id="kap2">
+  <div class="chapter-header">
+    <span class="ch-num">Kap. 1 · Basics LE 2</span>
+    <h2 class="ch-title">Anlagenkauf verbuchen</h2>
+  </div>
+
+  <h3 class="section-title">Kauf von Anlagegütern verbuchen</h3>
+  <p>Anlagegüter sind Gegenstände, die <strong>länger als ein Jahr</strong> im Betrieb verwendet werden. Der Anschaffungswert des neuen Anlagegutes wird auf dem entsprechenden Anlagenkonto in der Kontenklasse 0 verbucht.</p>
+  <p><strong>Buchungsgrundlage</strong> ist beim Kauf gegen spätere Bezahlung die <strong>Eingangsrechnung</strong>. Bei Barzahlung ist der <strong>Kassabeleg</strong>, bei Zahlung mit Kredit- oder Debitkarte die <strong>Sonstige Beleg</strong> die Buchungsgrundlage.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Kauf eines Computers / normaler Anlage:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">0620 Büromaschinen, EDV-Anlagen</span><span class="bs-slash">/</span><span class="bs-haben">33… Lieferantenkonto (2700 Kassa etc.)</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Kauf eines Pkw, Kombis oder Motorrades:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">0630 Pkw und Kombis</span><span class="bs-slash">/</span><span class="bs-haben">33… Lieferantenkonto</span></div>
+    <div class="bs-note" style="color: var(--red); font-style: normal;"><strong>Keine Vorsteuererbuchung!</strong></div>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Kauf eines Elektrofahrzeuges:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">0630 Pkw und Kombis</span><span class="bs-slash">/</span><span class="bs-haben">33… Lieferantenkonto</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer (Elektro-Pkw und Elektro-Kombis bis € 40.000,– inkl. USt sind vorsteuerabzugsberechtigt)</div>
+  </div>
+
+  <div class="warn"><strong>⚠ Pkw, Kombi, Motorrad:</strong> Wenn ein Pkw, Kombi oder Motorrad gekauft wird, wird der Rechnungsbetrag inklusive Umsatzsteuer (Vorsteuer) auf dem Anlagenkonto verbucht, da <strong>kein Vorsteuerabzug</strong> möglich ist.</div>
+
+  <h3 class="section-title">Kauf von geringwertigen Wirtschaftsgütern (GWG)</h3>
+  <p>Abnutzbare Anlagegüter, deren <strong>Anschaffungswert bis zu € 1.000,– (ohne USt)</strong> beträgt, werden als <strong>geringwertige Wirtschaftsgüter (GWG)</strong> bezeichnet.</p>
+  <p>Geringwertige Wirtschaftsgüter können im Jahr der Anschaffung mit dem vollen Betrag als Aufwand verbucht und damit <strong>voll abgeschrieben</strong> werden.</p>
+  <p>Ein geringwertiges Wirtschaftsgut muss <strong>einzeln nutzbar</strong> sein.</p>
+
+  <div style="margin: 1rem 0;">
+    <strong>1. Sofort beim Kauf abschreiben:</strong>
+    <p style="margin-top:4px">Der Anschaffungswert wird sofort beim Kauf auf dem Konto 7060 Abschreibungen geringwertiger Wirtschaftsgüter verbucht und somit sofort als Aufwand erfasst.</p>
+  </div>
+
+  <div class="bs-wrap">
+    <div class="bs-schema"><span class="bs-soll">7060 Abschreibungen geringwertiger Wirtschaftsgüter</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa (33… Lieferantenkonto etc.)</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+
+  <div style="margin: 1rem 0;">
+    <strong>2. Am Jahresende abschreiben:</strong>
+    <p style="margin-top:4px">Buchung beim Kauf auf das Anlagenkonto; Buchung am Jahresende:</p>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Beim Kauf:</div>
+    <div class="bs-schema"><span class="bs-soll">0… Geringwertige…</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa (33… Lieferantenkonto etc.) + 2500 Vorsteuer</span></div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Am Jahresende:</div>
+    <div class="bs-schema"><span class="bs-soll">7060 Abschreibungen geringwertiger Wirtschaftsgüter</span><span class="bs-slash">/</span><span class="bs-haben">0… Geringwertige…</span></div>
+  </div>
+
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist die Eingangsrechnung oder der Kassabeleg bzw. der Sonstige Beleg. Die Abschreibung von GWG erfolgt im Zuge der Jahresabschlussarbeiten.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KAP 3 -->
+<div class="chapter" id="kap3">
+  <div class="chapter-header">
+    <span class="ch-num">Kap. 1 · Basics LE 3</span>
+    <h2 class="ch-title">Bezugs- und Versandkosten verbuchen</h2>
+  </div>
+
+  <h3 class="section-title">Bezugs- oder Versandkosten?</h3>
+  <p><strong>Bezugskosten</strong> (Bezugsspesen) sind jene Kosten, die beim <strong>Einkauf von Waren</strong> z. B. für Transport, Zoll und Transportversicherung entstehen.</p>
+  <p><strong>Versandkosten</strong> (Versandspesen) entstehen beim <strong>Verkauf von Waren</strong>.</p>
+
+  <h3 class="section-title">Bezugskosten verbuchen</h3>
+  <p>Bezugskosten sind z. B. <strong>Frachtkosten</strong> (Schiffs-, Bahn- und Flugfracht), <strong>Rollgeld</strong>, <strong>Zoll</strong> sowie <strong>Transportversicherungsprämien</strong>.</p>
+  <p><strong>Bezugskosten verbuchen und Einstandspreis berechnen:</strong> Die Bezugskosten werden auf demselben Konto erfasst, auf dem auch der Einkauf der Waren verbucht wird (z. B. 5000 HW-Einsatz). Die Summe aus Einkaufspreis und Bezugskosten ergibt den <strong>Einstandspreis</strong>.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Bezugskosten beim Einkauf von Handelswaren:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">5000 HW-Einsatz</span><span class="bs-slash">/</span><span class="bs-haben">33… Lieferantenkonto (2700 Kassa etc.)</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+
+  <div class="info">Einkaufspreis (netto) + Bezugskosten (netto) = <strong>Einstandspreis</strong></div>
+  <p style="font-size:13px; color: var(--text-mid)">Buchungsgrundlage für die Bezugskosten ist die <strong>Rechnung des Paketdienstleisters</strong> bzw. <strong>Transportunternehmens</strong> (Eingangsrechnung, Kassabeleg bzw. Sonstiger Beleg).</p>
+
+  <h3 class="section-title">Versandkosten verbuchen</h3>
+  <p>Versandkosten sind z. B. <strong>Frachtkosten</strong> und <strong>Paketgebühren</strong>. Bei der Verbuchung von Versandkosten wird zwischen Frachtkosten (Transportunternehmen, d. h. Frachtführer und Spediteure) und Paketgebühren (Paketdienstleister, z. B. Post, DHL, UPS) unterschieden.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Frachtkosten (Ausgangsfrachten):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">7300 Ausgangsfrachten 20%</span><span class="bs-slash">/</span><span class="bs-haben">33… Lieferantenkonto (2700 Kassa etc.)</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Paketgebühren (über 10 kg, unabhängig vom Gewicht):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">7310 Paketgebühren 20%</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Paketgebühren bis 10 kg (z. B. Österreichische Post):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">7311 Paketgebühren 0%</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa</span></div>
+    <div class="bs-note">keine Vorsteuer (steuerbefreit)</div>
+  </div>
+
+  <div class="tip"><strong>Buchungsgrundlage</strong> für die Versandkosten ist die Rechnung des Paketdienstleisters bzw. Transportunternehmens (Eingangsrechnung, Kassabeleg bzw. Sonstiger Beleg).</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KAP 4 -->
+<div class="chapter" id="kap4">
+  <div class="chapter-header">
+    <span class="ch-num">Kap. 1 · Basics LE 4</span>
+    <h2 class="ch-title">Rabatte verbuchen</h2>
+  </div>
+
+  <h3 class="section-title">Welche Rabatte gibt es?</h3>
+  <p>Ein Rabatt ist ein <strong>Preisnachlass</strong>, der aus verschiedenen Gründen gewährt wird (z. B. Mengenrabatt, Treuerabatt, Mängelrabatt, Wiederverkäuferrabatt).</p>
+  <p>Für die <strong>Verbuchung von Rabatten</strong> ist aber nur der <strong>Zeitpunkt</strong> wichtig, an dem der Rabatt gewährt wurde:</p>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Sofort gewährter Rabatt</th><th>Nachträglich gewährter Rabatt</th></tr></thead>
+    <tbody>
+      <tr><td>Wird <strong>sofort</strong> bei Vertragsabschluss gewährt</td><td>Wird <strong>nach</strong> Vertragsabschluss gewährt</td></tr>
+      <tr><td>Wird <strong>nicht verbucht</strong></td><td>Wird <strong>verbucht</strong></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="section-title">Sofort gewährte Rabatte verbuchen</h3>
+  <p>Einen sofort gewährten Rabatt bekommt der Kunde <strong>sofort beim Vertragsabschluss</strong>. Er wird bereits in der Rechnung berücksichtigt und <strong>darf nicht verbucht werden</strong>.</p>
+  <p>In der Buchführung wird <strong>nur der um den Rabatt verminderte Betrag</strong> (= der rabattierte Betrag) erfasst. Die Umsatzsteuer wird vom rabattierten Betrag berechnet.</p>
+
+  <h3 class="section-title">Nachträglich gewährte Rabatte verbuchen</h3>
+  <p>Ein nachträglich gewährter Rabatt wird erst <strong>nach dem Vertragsabschluss</strong> gewährt und ist in der Rechnung noch nicht berücksichtigt. Er <strong>vermindert</strong> den schon verbuchten Einstandspreis beim Käufer bzw. den schon verbuchten Warenerlös beim Verkäufer. Der Käufer bekommt vom Verkäufer eine entsprechende <strong>Gutschrift</strong>.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Nachträglich gewährten Rabatt vom Lieferanten verbuchen:</strong></div>
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Eingangsrechnung (bereits verbucht):</div>
+    <div class="bs-schema"><span class="bs-soll">5000 HW-Einsatz</span><span class="bs-slash">/</span><span class="bs-haben">33… Lieferantenkonto</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Nachträglich gewährter Rabatt vom Lieferanten (Gutschrift):</div>
+    <div class="bs-schema"><span class="bs-soll">33… Lieferantenkonto</span><span class="bs-slash">/</span><span class="bs-haben">5000 HW-Einsatz / 2500 Vorsteuer</span></div>
+    <div class="bs-note">Buchungsgrundlage ist die <strong>Gutschrift vom Lieferanten</strong> (Sonstiger Beleg).</div>
+  </div>
+
+  <div class="info">Ein nachträglicher Rabatt <strong>vermindert beim Käufer</strong> die Schuld gegenüber dem Lieferanten (Lieferantenkonto im Soll) und den <strong>Einstandspreis</strong> der Ware (Konto HW-Einsatz im Haben). Außerdem muss die <strong>Vorsteuer korrigiert</strong> werden (Konto Vorsteuer im Haben).</div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Nachträglich gewährten Rabatt an Kunden verbuchen:</strong></div>
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Ausgangsrechnung (bereits verbucht):</div>
+    <div class="bs-schema"><span class="bs-soll">20… Kundenkonto</span><span class="bs-slash">/</span><span class="bs-haben">4000 HW-Erlöse / 3500 Umsatzsteuer</span></div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Nachträglich gewährter Rabatt an Kunden (Gutschrift):</div>
+    <div class="bs-schema"><span class="bs-soll">4400 Erlösberichtigungen / 3500 Umsatzsteuer</span><span class="bs-slash">/</span><span class="bs-haben">20… Kundenkonto</span></div>
+    <div class="bs-note">Buchungsgrundlage ist die <strong>Gutschrift an den Kunden</strong> (Sonstiger Beleg). Der Verkäufer verbucht nachträglich gewährte Rabatte an Kunden, indem er die Verkaufsbuchung umkehrt und das Konto <strong>4400 Erlösberichtigungen</strong> statt 4000 HW-Erlöse verwendet.</div>
+  </div>
+
+  <div class="info">Ein nachträglicher Rabatt <strong>vermindert beim Verkäufer</strong> die Schuld des Kunden (Kundenkonto im Haben) und die <strong>Erlöse</strong> werden berichtigt (Konto Erlösberichtigungen im Soll). Außerdem muss die <strong>Umsatzsteuer korrigiert</strong> werden (Konto Umsatzsteuer im Soll).</div>
+  <div class="tip">Wenn die Umsätze unterschiedlichen Steuersätzen unterliegen, muss man mehrere Erlösberichtigungskonten führen, z. B. <span class="k">4400 Erlösberichtigungen 20%</span>, <span class="k">4401 Erlösberichtigungen 10%</span>, <span class="k">4402 Erlösberichtigungen 13%</span> und <span class="k">4403 Erlösberichtigungen 0%</span>.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KAP 5 -->
+<div class="chapter" id="kap5">
+  <div class="chapter-header">
+    <span class="ch-num">Kap. 1 · Basics LE 5</span>
+    <h2 class="ch-title">Rechnungsausgleich verbuchen</h2>
+  </div>
+
+  <h3 class="section-title">Rechnungsausgleich – Wiederholung</h3>
+  <p>Beim <strong>Rechnungsausgleich</strong> muss man die <strong>Zahlungskonditionen</strong> beachten. Wer zu spät zahlt, kann mit <strong>Mahnspesen</strong> bzw. <strong>Verzugszinsen</strong> belastet werden.</p>
+  <p><strong>Rechnungsausgleich verbuchen:</strong> Nach dem Ausgleich einer Rechnung können die entsprechenden Lieferverbindlichkeiten bzw. Lieferforderungen ausgebucht werden.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Einkauf auf Ziel – Zahlung:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">33… Lieferantenkonto</span><span class="bs-slash">/</span><span class="bs-haben">2800 Bank</span></div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Verkauf auf Ziel – Eingang:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">2800 Bank</span><span class="bs-slash">/</span><span class="bs-haben">20… Kundenkonto</span></div>
+  </div>
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist der <strong>Kontoauszug mit Beilage</strong> (Bankbeleg).</div>
+
+  <h3 class="section-title">Mahnspesen und Verzugszinsen verbuchen</h3>
+  <p>Für eine verspätete Zahlung können Mahnspesen und Verzugszinsen verrechnet werden. Diese unterliegen <strong>nicht der Umsatzsteuer</strong>.</p>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th></th><th>Beim Einkauf auf Ziel</th><th>Beim Verkauf auf Ziel</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Mahnspesen</strong></td><td><span class="k">8321 Mahnspesen</span> / 33… Lieferantenkonto</td><td>20… Kundenkonto / <span class="k">4890 Mahnspesenvergütungen</span></td></tr>
+      <tr><td><strong>Verzugszinsen</strong></td><td><span class="k">8320 Verzugszinsenaufwand</span> / 33… Lieferantenkonto</td><td>20… Kundenkonto / <span class="k">8055 Verzugszinsenerträge</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist das Mahnschreiben mit den verrechneten Mahnspesen bzw. Verzugszinsen (Sonstiger Beleg).</div>
+
+  <h3 class="section-title">Zahlungen mit Kredit- oder Debitkarte verbuchen</h3>
+  <p>Mit <strong>Kredit- und Debitkarten</strong> kann in Geschäften gezahlt werden, die über ein POS-Terminal verfügen. Das Kreditkartenunternehmen zieht eine <strong>Provision (Disagio)</strong> in Höhe von ca. 1,5% bis 3% ab und ein <strong>Buchungsentgelt</strong> (z. B. € 0,10 je Transaktion).</p>
+
+  <div class="section-title" style="margin-top:1rem">Buchungen des Käufers</div>
+  <p>Die Verbindlichkeiten aus Einkäufen mit Kredit- und Debitkarten werden auf folgenden Konten erfasst: <span class="k">3180 Verbindlichkeiten Kreditkartenunternehmen</span> / <span class="k">3190 Verbindlichkeiten Debitkarten</span></p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Einkauf mit Kredit- oder Debitkarte:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">…Bestands- bzw. Aufwandskonto</span><span class="bs-slash">/</span><span class="bs-haben">3180 (3190) Verbindlichkeiten…</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Ausgleich der Kredit-/Debitkartenverbindlichkeit:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">3180 (3190) Verbindlichkeiten…</span><span class="bs-slash">/</span><span class="bs-haben">2800 Bank</span></div>
+  </div>
+  <div class="tip"><strong>Buchungsgrundlage</strong> sind die Rechnung, der Kredit-/Debitkartenbeleg (Sonstiger Beleg) und der Kontoauszug (Bankbeleg).</div>
+
+  <div class="section-title" style="margin-top:1rem">Buchungen des Verkäufers</div>
+  <p>Die Forderungen aus Verkäufen mit Kredit- und Debitkarten werden auf folgenden Konten erfasst: <span class="k">2880 Forderungen Kreditkartenunternehmen</span> / <span class="k">2885 Forderungen Debitkarten</span></p>
+  <p>Die Provisionen und Gebühren für Verkäufe mit Kredit- und Debitkarten werden auf folgendem Konto erfasst: <span class="k">7792 Provisionen, Gebühren Kredit- und Debitkarten</span></p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Verkauf gegen Zahlung mit Kredit- oder Debitkarte:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">2880 (2885) Forderungen…</span><span class="bs-slash">/</span><span class="bs-haben">4000 HW-Erlöse / 3500 Umsatzsteuer</span></div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Ausgleich der Forderung bei Zahlung mit Kreditkarte:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">2800 Bank / 7792 Provisionen, Gebühren… / 2500 Vorsteuer</span><span class="bs-slash">/</span><span class="bs-haben">2880 Forderungen Kreditkartenunternehmen</span></div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Bei Zahlung mit Debitkarte (Provision monatlich):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">2800 Bank</span><span class="bs-slash">/</span><span class="bs-haben">2885 Forderungen Debitkarten</span></div>
+    <div class="bs-note">Abbuchung Provision: 7792 Provisionen, Gebühren… / 2500 Vorsteuer / 2800 Bank</div>
+  </div>
+
+  <h3 class="section-title">Skonto verbuchen</h3>
+  <p>Unter dem <strong>Skonto</strong> versteht man einen <strong>Preisabzug</strong>, der gewährt wird, wenn eine auf Ziel gekaufte bzw. verkaufte Ware oder Dienstleistung <strong>innerhalb einer kurzen Frist nach Erhalt der Rechnung (= Kassafrist)</strong> bezahlt wird.</p>
+  <p>In der Buchführung wird zwischen dem <strong>Lieferantenskonto</strong> und dem <strong>Kundenskonto</strong> unterschieden.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Lieferantenskonto verbuchen</strong> (Eingangsrechnung innerhalb der Kassafrist abzüglich Skonto bezahlt):</div>
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Eingangsrechnung (bereits verbucht): 5000 HW-Einsatz / 33… Lieferantenkonto + 2500 Vorsteuer</div>
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Rechnungsausgleich abzüglich Skonto:</div>
+    <div class="bs-schema" style="flex-wrap:wrap"><span class="bs-soll">33… Lieferantenkonto</span><span class="bs-slash">/</span><span class="bs-haben">2800 Bank / 5880 Lieferantenskonti 20% / 2500 Vorsteuer</span></div>
+  </div>
+
+  <div class="info">Dies bedeutet für den Käufer: eine <strong>Verminderung des zu zahlenden Betrages</strong> (um den Skonto weniger), eine <strong>Verminderung des Einstandspreises</strong> der gekauften Waren (Konto HW-Einsatz im Haben des Skontobetrages ohne USt) und eine <strong>Korrektur der Vorsteuer</strong> (USt-Anteil des Skontos).</div>
+  <p>Es handelt sich um <strong>Ertragskonten</strong>, die mit dem Konto 9890 Gewinn- und Verlustkonto abgeschlossen werden. Sie erhöhen den Erfolg. Auf dem jeweiligen Konto wird der <strong>Nettobetrag</strong> (= Skonto ohne USt) verbucht, die <strong>Vorsteuer</strong> muss auf dem Konto 2500 Vorsteuer korrigiert werden.</p>
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist der Kontoauszug (Bankbeleg).</div>
+
+  <div class="bs-wrap" style="margin-top:1rem">
+    <div style="margin-bottom:6px"><strong>Kundenskonto verbuchen</strong> (Ausgangsrechnung innerhalb der Kassafrist abzüglich Skonto bezahlt):</div>
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Ausgangsrechnung (bereits verbucht): 20… Kundenkonto / 4000 HW-Erlöse + 3500 Umsatzsteuer</div>
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Rechnungsausgleich abzüglich Skonto:</div>
+    <div class="bs-schema" style="flex-wrap:wrap"><span class="bs-soll">2800 Bank / 4410 Kundenskonti 20% / 3500 Umsatzsteuer</span><span class="bs-slash">/</span><span class="bs-haben">20… Kundenkonto</span></div>
+  </div>
+
+  <div class="info">Dies bedeutet für den Verkäufer: eine <strong>Verminderung des Zahlungseinganges</strong> (um den Skonto weniger), eine <strong>Erlösminderung</strong> (in Höhe des Skontobetrages ohne USt) und eine <strong>Korrektur der Umsatzsteuer</strong> (USt-Anteil des Skontos).</div>
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist der Kontoauszug (Bankbeleg).</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KAP 6 -->
+<div class="chapter" id="kap6">
+  <div class="chapter-header">
+    <span class="ch-num">Kap. 2 · Advanced LE 1</span>
+    <h2 class="ch-title">Besondere Bankbewegungen verbuchen</h2>
+  </div>
+
+  <h3 class="section-title">Bankguthaben oder Bankschuld</h3>
+  <p>Das Bankkonto ist ein Bestandskonto, das bei einem <strong>Guthaben</strong> als <strong>aktives Bestandskonto</strong> und bei einer <strong>Bankschuld</strong> (Verbindlichkeit durch Überziehung des Kontos) als <strong>passives Bestandskonto</strong> in der Bilanz aufscheint:</p>
+  <div class="info"><span class="k">2800 Bank</span> (Guthaben bei Kreditinstituten) · <span class="k">3120 Bank</span> (Bankschuld, Verbindlichkeiten gegenüber Kreditinstituten)<br><br>Wenn nicht anders angegeben, wird das aktive Bestandskonto <strong>2800 Bank</strong> verwendet.</div>
+
+  <h3 class="section-title">Abhebungen und Einzahlungen verbuchen</h3>
+  <p>Das Konto <strong>2870 Barverkehr mit Banken</strong> dient als Zwischenkonto der jeweiligen Kassa- und Bankbuchung.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Abhebung vom Bankkonto und Einlage in die Kassa (Kassabeleg):</div>
+    <div class="bs-schema"><span class="bs-soll">2700 Kassa</span><span class="bs-slash">/</span><span class="bs-haben">2870 Barverkehr mit Banken</span></div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Der Kontoauszug weist später die Abhebung aus (Bankbeleg):</div>
+    <div class="bs-schema"><span class="bs-soll">2870 Barverkehr mit Banken</span><span class="bs-slash">/</span><span class="bs-haben">2800 Bank</span></div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:4px; font-size:13px; color: var(--text-mid)">Einzahlung auf das Bankkonto (Kassabeleg) und Einzahlung laut Kontoauszug:</div>
+    <div class="bs-schema"><span class="bs-soll">2870 Barverkehr mit Banken</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa</span></div>
+    <div class="bs-note">+ 2800 Bank / 2870 Barverkehr mit Banken (Kontoauszug)</div>
+  </div>
+  <div class="info">In kleineren Unternehmen ist es auch üblich, ohne Zwischenkonto zu buchen: <span class="k">2700 Kassa / 2800 Bank</span></div>
+
+  <h3 class="section-title">Abschlussposten verbuchen</h3>
+  <p>Als Abschlussposten werden die von der Bank <strong>vierteljährlich</strong> verrechneten Habenzinsen, Sollzinsen, Provisionen, Gebühren und Spesen sowie die KESt bezeichnet.</p>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Abschlussposten</th><th>Buchungssatz</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Guthabenzinsen (Habenzinsen)</strong></td><td><span class="k">2800 Bank</span> / <span class="k">8050 Zinserträge aus Bankguthaben</span></td></tr>
+      <tr><td><strong>Kapitalertragsteuer (KESt)</strong></td><td><span class="k">9600 Privat</span> / <span class="k">2800 Bank</span></td></tr>
+      <tr><td><strong>Schuldzinsen (Sollzinsen)</strong></td><td><span class="k">8310 Zinsenaufwand für Bankkredite</span> / <span class="k">2800 Bank</span></td></tr>
+      <tr><td><strong>Provisionen, Gebühren und Spesen</strong></td><td><span class="k">7790 Spesen des Geldverkehrs</span> / <span class="k">2800 Bank</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist der Kontoauszug (Bankbeleg).</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KAP 7 -->
+<div class="chapter" id="kap7">
+  <div class="chapter-header">
+    <span class="ch-num">Kap. 2 · Advanced LE 2</span>
+    <h2 class="ch-title">Steuern und Kammerumlage verbuchen</h2>
+  </div>
+
+  <h3 class="section-title">Steuern verbuchen</h3>
+  <p>In Bezug auf die Verbuchung gibt es vier Arten von Steuern:</p>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Steuerart</th><th>Beispiel</th><th>Buchungssatz</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Betriebssteuern</strong> (Aufwand)</td><td>Grundsteuer für Betriebsgrundstücke</td><td><span class="k">7100 Grundsteuer</span> / 2800 Bank</td></tr>
+      <tr><td><strong>Privatsteuern</strong> (kein Aufwand)</td><td>Einkommensteuer, Kapitalertragsteuer</td><td><span class="k">9600 Privat</span> (9610 Privatsteuern) / 2800 Bank</td></tr>
+      <tr><td><strong>Betriebliche Durchlaufsteuern</strong> (kein Aufwand)</td><td>Umsatzsteuer: USt-Zahllast</td><td><span class="k">3520 USt-Zahllast</span> / 2800 Bank</td></tr>
+      <tr><td></td><td>Lohnsteuer</td><td><span class="k">3540 Verbindlichkeiten Finanzamt</span> / 2800 Bank</td></tr>
+      <tr><td><strong>Aktivierungspflichtige Steuern</strong></td><td>Grunderwerbsteuer</td><td><span class="k">0200 Unbebaute Grundstücke</span> / 2800 Bank</td></tr>
+      <tr><td></td><td>Normverbrauchsabgabe (NoVA)</td><td><span class="k">0630 Pkw und Kombis</span> / 2800 Bank</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist der Kontoauszug (Bankbeleg).</div>
+
+  <h3 class="section-title">Kammerumlage verbuchen</h3>
+  <p>Die Wirtschaftskammern heben bei ihren Mitgliedern (gewerbliche Unternehmen) über die Finanzämter eine <strong>Kammerumlage (Kammerumlage 1, KU 1)</strong> ein.</p>
+  <p>Die Kammerumlage beträgt <strong>3‰ der Summe der Vorsteuern</strong> aus u. a. Lieferungen und sonstigen Leistungen an das Unternehmen, der Einfuhr von Gegenständen aus Drittländern und den innergemeinschaftlichen Erwerben. Bis zu einem Gesamtbetrag der Entgelte von € 150.000,– wird die Kammerumlage nicht erhoben.</p>
+  <p>Die Kammerumlage ist vom Unternehmen <strong>vierteljährlich selbst zu berechnen</strong> und spätestens am 15. des zweitfolgenden Kalendermonats (15. Mai, 15. Aug., 15. Nov., 15. Feb.) an das Finanzamt abzuführen.</p>
+  <p>Für die Verbuchung der Kammerumlage wird folgendes Konto eingerichtet: <span class="k">7780 Kammerumlage</span></p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Kammerumlage (1. bis 3. Quartal):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">7780 Kammerumlage</span><span class="bs-slash">/</span><span class="bs-haben">2800 Bank</span></div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Kammerumlage (4. Quartal) – wird am Jahresende als Verbindlichkeit verbucht:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">7780 Kammerumlage</span><span class="bs-slash">/</span><span class="bs-haben">3540 Verbindlichkeiten Finanzamt</span></div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Zahlung der Kammerumlage (4. Quartal) bis 15. Februar n. J.:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">3540 Verbindlichkeiten Finanzamt</span><span class="bs-slash">/</span><span class="bs-haben">2800 Bank</span></div>
+  </div>
+  <div class="tip"><strong>Buchungsgrundlage</strong> für die Zahlung der Kammerumlage ist der Kontoauszug (Bankbeleg).</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KAP 8 -->
+<div class="chapter" id="kap8">
+  <div class="chapter-header">
+    <span class="ch-num">Kap. 2 · Advanced LE 3</span>
+    <h2 class="ch-title">Kfz-Betriebskosten verbuchen</h2>
+  </div>
+
+  <h3 class="section-title">Was sind Kfz-Betriebskosten?</h3>
+  <p>Der betriebliche Einsatz von Kraftfahrzeugen verursacht <strong>verschiedene Betriebskosten</strong>, und zwar allem: für Treibstoff (Benzin, Diesel), für Wartung (Service) und Reparaturen, für Reifen, für Versicherung, für Steuern und Abgaben (motorbezogene Versicherungssteuer bzw. Kraftfahrzeugsteuer und Mautgebühren), für die Garage bzw. einen Abstellplatz und die jährliche Wertminderung in Form der Abschreibung.</p>
+  <p>In der Buchhaltung muss unterschieden werden, für welches Fahrzeug die Betriebskosten anfallen: <strong>Lkw, Kastenwagen, Pritschenwagen, Kleinbusse</strong> oder <strong>Pkw, Kombis und Motorräder</strong>.</p>
+
+  <h3 class="section-title">Betriebskosten von Lkw, Kastenwagen, Pritschenwagen und Kleinbussen</h3>
+  <p>Meist werden <strong>alle Betriebskosten</strong> (Treibstoff, Reparaturen, motorbezogene Versicherungssteuer, Haftpflichtversicherungsprämie, Kraftfahrzeugsteuer, Mautgebühren usw.) auf dem Konto <strong>7330 Lkw-Betriebsaufwand</strong> erfasst.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Betriebskosten:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">7330 Lkw-Betriebsaufwand</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa (33… Lieferantenkonto etc.)</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Anmeldegebühren (kein VSt-Abzug, Teil des Anschaffungswertes):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">0640 Lkw</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa (3190 Verbindlichkeiten Debitkarten etc.)</span></div>
+  </div>
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist die Eingangsrechnung oder der Kassabeleg bzw. Kredit-/Debitkartenbeleg (Sonstiger Beleg).</div>
+
+  <h3 class="section-title">Betriebskosten von Pkw, Kombis und Motorrädern verbuchen</h3>
+  <p>Meist werden alle Betriebskosten, die für Pkw, Kombis und Motorräder anfallen, auf dem Konto <strong>7320 Pkw- und Kombi-Betriebsaufwand</strong> verbucht.</p>
+  <p>Für die Betriebskosten von Pkw, Kombis und Motorrädern besteht laut Umsatzsteuergesetz <strong>kein Recht auf Vorsteuerabzug</strong>, d. h., die Beträge müssen <strong>brutto (inkl. Umsatzsteuer)</strong> verbucht werden.</p>
+  <p>Bei betrieblich genutzten <strong>Elektro-Pkw</strong> und <strong>Elektro-Kombis</strong> ist allerdings ein Vorsteuerabzug möglich.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Betriebskosten (kein Vorsteuerabzug, brutto):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">7320 Pkw- und Kombi-Betriebsaufwand</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa (33… Lieferantenkonto etc.)</span></div>
+    <div class="bs-note"><strong>Kein Vorsteuerabzug!</strong> Betrag inkl. USt verbuchen.</div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Betriebskosten Elektro-Pkw (mit Vorsteuerabzug):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">7320 Pkw- und Kombi-Betriebsaufwand</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa (33… Lieferantenkonto etc.)</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Anmeldegebühren Pkw (kein VSt-Abzug, Teil des Anschaffungswertes):</strong></div>
+    <div class="bs-schema"><span class="bs-soll">0630 Pkw und Kombis</span><span class="bs-slash">/</span><span class="bs-haben">2700 Kassa (3190 Verbindlichkeiten Debitkarten etc.)</span></div>
+  </div>
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist die Eingangsrechnung oder der Kassabeleg bzw. Kredit-/Debitkartenbeleg (Sonstiger Beleg).</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KAP 9 -->
+<div class="chapter" id="kap9">
+  <div class="chapter-header">
+    <span class="ch-num">Kap. 2 · Advanced LE 4</span>
+    <h2 class="ch-title">Sonstiges Material verbuchen</h2>
+  </div>
+
+  <h3 class="section-title">Einkauf von sonstigem Material verbuchen</h3>
+  <p>Als <strong>sonstiges Material</strong> bezeichnet man Material, das <strong>im Betrieb laufend verbraucht</strong> wird:</p>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Materialart</th><th>Beispiele</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Verpackungsmaterial</strong></td><td>Packpapier, Schnüre, Kartons</td></tr>
+      <tr><td><strong>Reinigungsmaterial</strong></td><td>Putzmittel, Schwämme, Tücher</td></tr>
+      <tr><td><strong>Heizmaterial</strong></td><td>Öl, Pellets, Kohle</td></tr>
+      <tr><td><strong>Büromaterial</strong></td><td>Papier, Ordner, Toner</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>Für das sonstige Material können z. B. folgende Konten eingerichtet werden: <span class="k">5340 Verpackungsmaterialverbrauch</span> · <span class="k">5450 Reinigungsmaterialverbrauch</span> · <span class="k">7240 Heizölverbrauch</span> · <span class="k">7600 Büromaterial</span></p>
+
+  <p><strong>Einkauf von sonstigem Material verbuchen:</strong> Beim Einkauf wird das sonstige Material auf dem entsprechenden Verbrauchskonto (Aufwandskonto) verbucht.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Beispiel: Einkauf von Heizöl:</strong></div>
+    <div class="bs-schema"><span class="bs-soll">7240 Heizölverbrauch</span><span class="bs-slash">/</span><span class="bs-haben">33… Lieferantenkonto (2700 Kassa etc.)</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist die Eingangsrechnung oder der Kassabeleg bzw. Kredit-/Debitkartenbeleg (Sonstiger Beleg).</div>
+
+  <h3 class="section-title">Anpassung des Vorratskontos am Jahresende</h3>
+  <p>In der <strong>Kontenklasse 1</strong> werden für das sonstige Material entsprechende <strong>Vorratskonten</strong> (z. B. 1360 Vorrat Heizöl) geführt, die den Bestand vom Jahresanfang aufweisen. Diese Konten werden während des Jahres <strong>nicht</strong> verändert und erst am <strong>Jahresende</strong>, nach der Inventur, auf den neuesten Stand gebracht.</p>
+  <p><strong>Vorratskonto anpassen:</strong> Der Endbestand des sonstigen Materials wird mit dem Anfangsbestand verglichen. Die Differenz (Bestandsvermehrung oder Bestandsverminderung) wird so verbucht, dass das Vorratskonto am Jahresende den aktuellen Stand aufweist.</p>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Fall 1: Bestandsvermehrung</th><th>Fall 2: Bestandsverminderung</th></tr></thead>
+    <tbody>
+      <tr><td>Endbestand ist <strong>größer</strong> als Anfangsbestand → Differenz positiv</td><td>Endbestand ist <strong>kleiner</strong> als Anfangsbestand → Differenz negativ</td></tr>
+      <tr><td><span class="k">1360 Vorrat Heizöl</span> / <span class="k">7240 Heizölverbrauch</span></td><td><span class="k">7240 Heizölverbrauch</span> / <span class="k">1360 Vorrat Heizöl</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="info">Ist der Endbestand am 31. Dezember genauso groß wie der Anfangsbestand per 1. Jänner, erfolgt <strong>keine Buchung</strong>.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KAP 10 -->
+<div class="chapter" id="kap10">
+  <div class="chapter-header">
+    <span class="ch-num">Kap. 2 · Advanced LE 5</span>
+    <h2 class="ch-title">Laufende Geschäftsfälle im Erzeugungsbetrieb</h2>
+  </div>
+
+  <h3 class="section-title">Einkauf von Roh-, Hilfs- und Betriebsstoffen verbuchen</h3>
+  <p>Folgende Stoffe werden in einem Erzeugungsbetrieb benötigt:</p>
+
+  <div class="gtable-wrap"><table class="gtable">
+    <thead><tr><th>Stoffart</th><th>Beschreibung</th><th>Verbrauchskonto</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Rohstoffe</strong></td><td>Hauptbestandteile des Produktes</td><td><span class="k">5100 Rohstoffverbrauch (-einsatz)</span></td></tr>
+      <tr><td><strong>Hilfsstoffe</strong></td><td>Teile des Produktes, aber für seinen Charakter nicht wesentlich</td><td><span class="k">5300 Hilfsstoffverbrauch</span></td></tr>
+      <tr><td><strong>Betriebsstoffe</strong></td><td>Werden bei der Produktion verbraucht, sind im Produkt selbst nicht enthalten</td><td><span class="k">5400 Betriebsstoffverbrauch</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <p><strong>Einkauf von Roh-, Hilfs- und Betriebsstoffen verbuchen:</strong> Beim Einkauf werden die Roh-, Hilfs- und Betriebsstoffe in der <strong>Klasse 5</strong> verbucht.</p>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Einkauf von Rohstoffen</strong> (Beispiel: Holz für Möbelproduktion):</div>
+    <div class="bs-schema"><span class="bs-soll">5100 Rohstoffverbrauch (-einsatz)</span><span class="bs-slash">/</span><span class="bs-haben">33… Lieferantenkonto (2700 Kassa etc.)</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Einkauf von Hilfsstoffen</strong> (Beispiel: Schrauben und Beschläge für Möbelproduktion):</div>
+    <div class="bs-schema"><span class="bs-soll">5300 Hilfsstoffverbrauch</span><span class="bs-slash">/</span><span class="bs-haben">33… Lieferantenkonto (2700 Kassa etc.)</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+
+  <div class="bs-wrap">
+    <div style="margin-bottom:6px"><strong>Einkauf von Betriebsstoffen</strong> (Beispiel: Leim, Schleifpapier und Schmiermittel für Möbelproduktion):</div>
+    <div class="bs-schema"><span class="bs-soll">5400 Betriebsstoffverbrauch</span><span class="bs-slash">/</span><span class="bs-haben">33… Lieferantenkonto (2700 Kassa etc.)</span></div>
+    <div class="bs-note">+ 2500 Vorsteuer</div>
+  </div>
+
+  <div class="tip"><strong>Buchungsgrundlage</strong> ist die Eingangsrechnung oder der Kassabeleg bzw. Kredit-/Debitkartenbeleg (Sonstiger Beleg). Die Bestände (Vorräte) vom Jahresanfang scheinen in der Kontenklasse 1 auf und werden am Jahresende auf den neuesten Stand gebracht.</div>
+
+  <div class="info">Mittel- und Großbetriebe müssen die Konten für die Roh-, Hilfs- und Betriebsstoffe oft aufgliedern. In einer Tischlerei können z. B. folgende Konten eingerichtet werden: <span class="k">5100 Holzverbrauch</span> · <span class="k">5110 Plattenverbrauch</span> · <span class="k">5300 Verbrauch Beschläge</span> · <span class="k">5310 Verbrauch Leim und sonstige Klebstoffe</span> · <span class="k">5320 Verbrauch sonstiges Hilfsmaterial</span> · <span class="k">5410 Schmiermittelverbrauch</span> · <span class="k">5420 Reparaturmaterialverbrauch</span></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ FINISH -->
+<div style="margin-top: 3rem; background: var(--blue); color: white; border-radius: var(--r); padding: 2rem; text-align: center;">
+  <div style="font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem;">Viel Erfolg, Daniel! 💪</div>
+  <div style="font-size: 13.5px; opacity: 0.85; line-height: 1.7;">Lern die Buchungsschemata auswendig – genau so wie sie im Buch stehen.<br>Schularbeit: <strong>23. April 2026</strong> · Klasse <strong>2AVK</strong></div>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+  <strong>Lernunterlage – Unternehmensrechnung &amp; Controlling</strong><br>
+  Daniel Stadler · Klasse 2AVK · 2. Jahrgang, 2. Semester · Inhalte aus dem UNCO-Buch (Hölzel Verlag)
+</footer>
+
+</body>
+</html>
